@@ -1,30 +1,20 @@
 class Solution {
-    // Helper function to count subarrays with at most k odd numbers
     public int countAtMost(int[] nums, int k) {
-        int left = 0, res = 0;
+        int left = 0, sum = 0, count = 0;
 
-        // Traverse through the array
-        for (int right = 0; right < nums.length; right++) {
-            // If current number is odd, reduce k
-            if (nums[right] % 2 != 0)
-                k--;
+        for(int right = 0; right < nums.length; right++){
+            sum += (nums[right])%2;
 
-            // Shrink the window until k is valid
-            while (k < 0) {
-                if (nums[left] % 2 != 0)
-                    k++;
+            while(sum > k){
+                sum -= (nums[left])%2;
                 left++;
             }
 
-            // Add valid subarrays ending at right
-            res += (right - left + 1);
+            count += (right-left+1);
         }
-
-        // Return result
-        return res;
+        return count;
     }
 
-    // Function to return number of subarrays with exactly k odd numbers
     public int numberOfSubarrays(int[] nums, int k) {
         return countAtMost(nums, k) - countAtMost(nums, k - 1);
     }
